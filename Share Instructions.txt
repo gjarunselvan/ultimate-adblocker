@@ -1,0 +1,10 @@
+Hey! I built an Ultimate AdBlocker specifically designed to destroy those annoying popups, invisible click-traps, and fake "Confirm Robot" boxes on streaming and torrent sites. 
+
+Here is how to install it for free:
+1. Extract this ZIP file into a new folder on your computer.
+2. Open Google Chrome and type `chrome://extensions/` into your address bar.
+3. Turn on "Developer mode" (the toggle switch in the top right corner).
+4. Click the "Load unpacked" button in the top left.
+5. Select the folder where you extracted the files.
+
+That's it! It runs entirely in the background. The extension icon will appear in your toolbar where you can toggle it between Light and Severe modes. Enjoy!
