@@ -47,7 +47,39 @@ document.addEventListener('click', (e) => {
 setInterval(() => {
     if (!enabled) return;
 
-    // 1. Brutal Iframe Sweeper (Silent)
+    // 0. Force page to remain clickable
+    if (document.body) {
+        if (window.getComputedStyle(document.body).pointerEvents === 'none') {
+            document.body.style.setProperty('pointer-events', 'auto', 'important');
+        }
+        if (window.getComputedStyle(document.body).overflow === 'hidden') {
+            document.body.style.setProperty('overflow', 'auto', 'important');
+        }
+    }
+
+    // 1. Massive Overlay Click-Trap Sweeper
+    document.querySelectorAll('div, a, section').forEach(el => {
+        const css = window.getComputedStyle(el);
+        if (css.position === 'fixed' || css.position === 'absolute') {
+            const w = el.offsetWidth || 0;
+            const h = el.offsetHeight || 0;
+            // If it covers more than 80% of the screen
+            if (w >= window.innerWidth * 0.8 && h >= window.innerHeight * 0.8) {
+                if (el.querySelector('video')) return; // Ignore full-screen video players
+                
+                const opacity = parseFloat(css.opacity || 1);
+                const bg = css.backgroundColor;
+                const z = parseInt(css.zIndex || 0);
+                
+                // Destroy if it's transparent OR if it has a massively high z-index blocking the page
+                if (opacity < 0.1 || bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent' || z > 900) {
+                    el.remove();
+                }
+            }
+        }
+    });
+
+    // 2. Brutal Iframe Sweeper (Silent)
     document.querySelectorAll('iframe').forEach(iframe => {
         const src = (iframe.src || "").toLowerCase();
         if (src.includes('youtube.com') || 
@@ -62,7 +94,7 @@ setInterval(() => {
         iframe.remove();
     });
 
-    // 2. Scam Phrase Destroyer (Silent)
+    // 3. Scam Phrase Destroyer (Silent)
     const scamPhrases = ['confirm you are not a robot', 'click allow', 'your computer is infected', 'prove you are human', 'click here to verify', 'you are not a robot'];
     document.querySelectorAll('div, dialog, section, aside').forEach(el => {
         const css = window.getComputedStyle(el);
@@ -77,7 +109,7 @@ setInterval(() => {
         }
     });
 
-    // 3. YouTube Video Ad Killer
+    // 4. YouTube Video Ad Killer
     const playerContainer = document.querySelector('.html5-video-player');
     if ((playerContainer && playerContainer.classList.contains('ad-showing')) || document.querySelector('.ytp-ad-player-overlay')) {
         const video = document.querySelector('video');
@@ -99,7 +131,7 @@ setInterval(() => {
         if (v && v.paused) v.play();
     }
 
-    // 4. Generic Popup Close Button Auto-Clicker
+    // 5. Generic Popup Close Button Auto-Clicker
     document.querySelectorAll('[aria-label*="Close"], [class*="close-ad"], .close').forEach(b => {
         if (b.offsetWidth > 0 && b.offsetHeight > 0) {
              const c = (b.className || '').toString().toLowerCase();
