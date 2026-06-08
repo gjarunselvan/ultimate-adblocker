@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <h2>Ad Blocker</h2>
+  <div class="control-group">
+    <label class="switch">
+      <input type="checkbox" id="powerSwitch">
+      <span class="slider round"></span>
+    </label>
+    <span id="statusText">ON</span>
+  </div>
+  
+  <div class="intensity-group">
+    <label for="intensity">Blocking Intensity:</label>
+    <select id="intensity">
+      <option value="light">Light (Basic Tracking)</option>
+      <option value="medium">Medium (Hide Banners)</option>
+      <option value="severe">Severe (Skip Video Ads)</option>
+    </select>
+  </div>
+  <p class="desc">Light: Blocks common ad domains.<br/>Medium: Also hides ad banners.<br/>Severe: Also auto-skips YouTube video ads & popups.</p>
+  <script src="popup.js"></script>
+</body>
+</html>
